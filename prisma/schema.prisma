@@ -65,6 +65,8 @@ model Historico {
 
   livroId String
   livro   Livros @relation(fields: [livroId], references: [id])
+
+  @@map("historico")
 }
 
 enum TipoUser {
