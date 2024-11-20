@@ -1,0 +1,81 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id       String   @id @default(uuid())
+  nome     String
+  email    String   @unique
+  password String
+  tipoUser TipoUser @map("tipo_user")
+
+  Emprestimos Emprestimos[]
+  Historico   Historico[]
+
+  @@map("users")
+}
+
+model Livros {
+  id            String      @id @default(uuid())
+  titulo        String      @unique
+  autor         String
+  anoPublicacao Int         @map("ano_publicacao")
+  genero        GeneroLivro
+
+  Emprestimos Emprestimos[]
+  Historico   Historico[]
+
+  @@map("livros")
+}
+
+model Emprestimos {
+  id             String    @id @default(uuid())
+  dataEmprestimo DateTime  @map("data_emprestimo")
+  dataDevolucao  DateTime? @map("data_devolucao")
+  estadoLivro    String
+
+  userId String
+  user   Users  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  livroId String
+  livro   Livros @relation(fields: [livroId], references: [id], onDelete: Cascade)
+
+  @@map("emprestimos")
+}
+
+model Historico {
+  id             String    @id @default(uuid())
+  dataEmprestimo DateTime  @map("data_emprestimo")
+  dataDevolucao  DateTime? @map("data_devolucao")
+  estadoLivro    String
+
+  userId String
+  user   Users  @relation(fields: [userId], references: [id])
+
+  livroId String
+  livro   Livros @relation(fields: [livroId], references: [id])
+}
+
+enum TipoUser {
+  aluno
+  professor
+  admin
+}
+
+enum GeneroLivro {
+  romance
+  poema
+  drama
+  misterio
+}
