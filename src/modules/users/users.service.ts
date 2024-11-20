@@ -6,48 +6,31 @@ import { UpdateUsersDto } from './dto/UpdateUsers.dto';
 
 @Injectable()
 export class UsersService {
-    constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
-    // async create(createUsersDto: CreateUsersDto){
-    //     return await this.prisma.users.create({createUsersDto})
-    // }
-
-
-    async create(data: CreateUsersDto ) {
+  async create(data: CreateUsersDto) {
     return await this.prisma.users.create({ data });
   }
 
-    findAll() {
+  findAll() {
     return this.prisma.users.findMany();
-    }
-    findOne(id: string) {
-        return this.prisma.users.findUnique({ where: {id}})
-    }
+  }
+  findOne(id: string) {
+    return this.prisma.users.findUnique({ where: { id } });
+  }
 
-    async update(id: string, updateUsersDto: UpdateUsersDto) {
+  async update(id: string, updateUsersDto: UpdateUsersDto) {
+    return await this.prisma.users.update({
+      where: {
+        id,
+      },
+      data: {
+        ...updateUsersDto,
+      },
+    });
+  }
 
-        console.log(id)
-        console.log(updateUsersDto.nome)
-
-        console.log(updateUsersDto)
-
-        return await this.prisma.users.update({
-            where: {
-                id
-            },
-            data: {
-                ...updateUsersDto
-            }
-        })
-
-        
-    }
-
-    remove(id: string) {
-        return this.prisma.users.delete({where: {id}})
-    }
-
+  remove(id: string) {
+    return this.prisma.users.delete({ where: { id } });
+  }
 }
-
-
-
