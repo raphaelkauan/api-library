@@ -1,6 +1,6 @@
 export enum GeneroLivro {
-  romance,
-  poema,
-  drama,
-  misterio,
+  romance = 'romance',
+  poema = 'poema',
+  drama = 'drama',
+  misterio = 'misterio',
 }
