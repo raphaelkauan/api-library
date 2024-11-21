@@ -33,4 +33,8 @@ export class LivroService {
       throw new Error(error);
     }
   }
+
+  async findAllLivros() {
+    return await this.livroRepository.findAllLivros();
+  }
 }

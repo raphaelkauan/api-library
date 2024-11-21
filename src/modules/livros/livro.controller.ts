@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { LivroService } from './livro.service';
 import { CreateLivroDto } from './dto/CreateLivro.dto';
 
@@ -11,5 +11,10 @@ export class LivroController {
     @Body() createLivroDto: CreateLivroDto,
   ): Promise<{ message: string }> {
     return await this.livroService.createLivro(createLivroDto);
+  }
+
+  @Get()
+  async findAllLivros() {
+    return await this.livroService.findAllLivros();
   }
 }

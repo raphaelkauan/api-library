@@ -31,4 +31,28 @@ export class LivroRepository {
       throw new Error(`Erro ao buscar livro por título : ${error}`);
     }
   }
+
+  async findAllLivros() {
+    try {
+      return this.prisma.livros.findMany({});
+    } catch (error) {
+      throw new Error(`Erro ao buscar livros: ${error}`);
+    }
+  }
+
+  async validationEmprestimo(livroId: string) {
+    try {
+      const emprestimo = await this.prisma.emprestimos.findFirst({
+        where: { livroId },
+      });
+
+      if (emprestimo) {
+        return { message: 'livro emprestado!' };
+      } else {
+        return { message: 'livro não emprestado!' };
+      }
+    } catch (error) {
+      throw new Error(`Erro ao validar emprestimo: ${error}`);
+    }
+  }
 }
