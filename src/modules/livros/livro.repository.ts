@@ -67,7 +67,7 @@ export class LivroRepository {
         where: { titulo },
       });
     } catch (error) {
-      throw new Error(`Erro ao buscar livro por título : ${error}`);
+      throw new Error(`Erro ao buscar livro por título: ${error}`);
     }
   }
 

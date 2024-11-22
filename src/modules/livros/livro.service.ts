@@ -44,12 +44,19 @@ export class LivroService {
   }
 
   async updateLivroById(id: string, updateLivroDto: UpdateLivroDto) {
-    const livro = await this.livroRepository.findLivroById(id);
+    try {
+      const livro = await this.livroRepository.findLivroById(id);
 
-    if (!livro.livro) {
-      throw new HttpException('Esse livro não existe!', HttpStatus.BAD_REQUEST);
+      if (!livro.livro) {
+        throw new HttpException(
+          'Esse livro não existe!',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
+      return await this.livroRepository.updateLivroById(id, updateLivroDto);
+    } catch (error) {
+      throw new Error(`Erro ao atualizar livro: ${error}`);
     }
-
-    return await this.livroRepository.updateLivroById(id, updateLivroDto);
   }
 }
