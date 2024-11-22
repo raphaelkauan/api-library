@@ -3,11 +3,8 @@ import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { PrismaService } from 'src/database/prisma.service';
 
-
 @Module({
   controllers: [UsersController],
-  providers: [UsersService, PrismaService]
-
-
+  providers: [UsersService, PrismaService],
 })
 export class UsersModule {}

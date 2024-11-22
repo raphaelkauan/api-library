@@ -32,6 +32,8 @@ model Livros {
   autor         String
   anoPublicacao Int         @map("ano_publicacao")
   genero        GeneroLivro
+  createdAt     DateTime    @default(now()) @map("created_at")
+  updatedAt     DateTime    @updatedAt @map("updated_at")
 
   Emprestimos Emprestimos[]
   Historico   Historico[]
