@@ -19,4 +19,8 @@ export class CreateLivroDto implements ILivro {
   anoPublicacao: number;
 
   genero: GeneroLivro;
+
+  createdAt?: Date;
+
+  updatedAt?: Date;
 }

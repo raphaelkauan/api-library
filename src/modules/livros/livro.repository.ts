@@ -24,7 +24,7 @@ export class LivroRepository {
 
   async findAllLivros() {
     try {
-      return this.prisma.livros.findMany();
+      return await this.prisma.livros.findMany();
     } catch (error) {
       throw new Error(`Erro ao buscar livros: ${error}`);
     }
@@ -32,7 +32,7 @@ export class LivroRepository {
 
   async findLivroById(id: string) {
     try {
-      const emprestadoValidation = this.validationEmprestimo(id);
+      const emprestadoValidation = this.validationLivroEmprestimo(id);
 
       const livro = await this.prisma.livros.findFirst({
         where: { id },
@@ -68,7 +68,7 @@ export class LivroRepository {
     }
   }
 
-  async validationEmprestimo(livroId: string) {
+  async validationLivroEmprestimo(livroId: string) {
     try {
       const emprestimo = await this.prisma.emprestimos.findFirst({
         where: { livroId },

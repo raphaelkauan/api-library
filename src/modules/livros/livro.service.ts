@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateLivroDto } from './dto/CreateLivro.dto';
 import { LivroRepository } from './livro.repository';
 import { GeneroLivro } from 'src/shared/enums/genero.enum';
+import { ILivro } from 'src/shared/interfaces/livro.interface';
 
 @Injectable()
 export class LivroService {
