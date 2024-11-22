@@ -1,7 +1,16 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { LivroService } from './livro.service';
 import { CreateLivroDto } from './dto/CreateLivro.dto';
 import { UpdateLivroDto } from './dto/UpdateLivro.dto';
+import { ILivro } from 'src/shared/interfaces/livro.interface';
 
 @Controller('livro')
 export class LivroController {
@@ -15,7 +24,7 @@ export class LivroController {
   }
 
   @Get()
-  async findAllLivros() {
+  async findAllLivros(): Promise<ILivro[]> {
     return await this.livroService.findAllLivros();
   }
 
@@ -28,7 +37,12 @@ export class LivroController {
   async updateLivroById(
     @Param('id') id: string,
     @Body() updateLivroDto: UpdateLivroDto,
-  ) {
+  ): Promise<{ message: string }> {
     return await this.livroService.updateLivroById(id, updateLivroDto);
+  }
+
+  @Delete(':id')
+  async deleteLivroById(@Param('id') id: string): Promise<{ message: string }> {
+    return await this.livroService.deleteLivroById(id);
   }
 }

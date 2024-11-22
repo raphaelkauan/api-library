@@ -3,6 +3,7 @@ import { CreateLivroDto } from './dto/CreateLivro.dto';
 import { LivroRepository } from './livro.repository';
 import { GeneroLivro } from 'src/shared/enums/genero.enum';
 import { UpdateLivroDto } from './dto/UpdateLivro.dto';
+import { ILivro } from 'src/shared/interfaces/livro.interface';
 
 @Injectable()
 export class LivroService {
@@ -35,7 +36,7 @@ export class LivroService {
     }
   }
 
-  async findAllLivros() {
+  async findAllLivros(): Promise<ILivro[]> {
     return await this.livroRepository.findAllLivros();
   }
 
@@ -43,7 +44,10 @@ export class LivroService {
     return await this.livroRepository.findLivroById(id);
   }
 
-  async updateLivroById(id: string, updateLivroDto: UpdateLivroDto) {
+  async updateLivroById(
+    id: string,
+    updateLivroDto: UpdateLivroDto,
+  ): Promise<{ message: string }> {
     try {
       const livro = await this.livroRepository.findLivroById(id);
 
@@ -58,5 +62,9 @@ export class LivroService {
     } catch (error) {
       throw new Error(`Erro ao atualizar livro: ${error}`);
     }
+  }
+
+  async deleteLivroById(id: string): Promise<{ message: string }> {
+    return await this.livroRepository.deleteLivroById(id);
   }
 }

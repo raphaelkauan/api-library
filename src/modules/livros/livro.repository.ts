@@ -8,7 +8,7 @@ import { UpdateLivroDto } from './dto/UpdateLivro.dto';
 export class LivroRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createLivro(createLivroDto: CreateLivroDto) {
+  async createLivro(createLivroDto: CreateLivroDto): Promise<ILivro> {
     try {
       return await this.prisma.livros.create({
         data: {
@@ -23,7 +23,7 @@ export class LivroRepository {
     }
   }
 
-  async findAllLivros() {
+  async findAllLivros(): Promise<ILivro[]> {
     try {
       return await this.prisma.livros.findMany();
     } catch (error) {
@@ -61,7 +61,7 @@ export class LivroRepository {
     }
   }
 
-  async findLivroByTitulo(titulo: string) {
+  async findLivroByTitulo(titulo: string): Promise<ILivro> {
     try {
       return await this.prisma.livros.findFirst({
         where: { titulo },
@@ -71,7 +71,9 @@ export class LivroRepository {
     }
   }
 
-  async validationLivroEmprestimo(livroId: string) {
+  async validationLivroEmprestimo(
+    livroId: string,
+  ): Promise<{ message: string }> {
     try {
       const emprestimo = await this.prisma.emprestimos.findFirst({
         where: { livroId },
@@ -87,7 +89,10 @@ export class LivroRepository {
     }
   }
 
-  async updateLivroById(id: string, updateLivroDto: UpdateLivroDto) {
+  async updateLivroById(
+    id: string,
+    updateLivroDto: UpdateLivroDto,
+  ): Promise<{ message: string }> {
     try {
       await this.prisma.livros.update({
         where: { id },
@@ -102,6 +107,18 @@ export class LivroRepository {
       return { message: 'Livro atualizado com sucesso!' };
     } catch (error) {
       throw new Error(`Erro ao atualizar livro: ${error}`);
+    }
+  }
+
+  async deleteLivroById(id: string): Promise<{ message: string }> {
+    try {
+      await this.prisma.livros.delete({
+        where: { id },
+      });
+
+      return { message: 'Livro deletado com sucesso!' };
+    } catch (error) {
+      throw new Error(`Erro ao deletar livro: ${error}`);
     }
   }
 }

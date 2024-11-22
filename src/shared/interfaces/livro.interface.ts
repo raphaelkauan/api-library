@@ -1,4 +1,4 @@
-import { GeneroLivro } from '../enums/genero.enum';
+import { GeneroLivro } from '@prisma/client';
 
 export interface ILivro {
   id?: string;
