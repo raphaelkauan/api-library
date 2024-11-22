@@ -65,6 +65,19 @@ export class LivroService {
   }
 
   async deleteLivroById(id: string): Promise<{ message: string }> {
-    return await this.livroRepository.deleteLivroById(id);
+    try {
+      const livro = await this.livroRepository.findLivroById(id);
+
+      if (!livro.livro) {
+        throw new HttpException(
+          'Esse livro não existe!',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
+      return await this.livroRepository.deleteLivroById(id);
+    } catch (error) {
+      throw new Error(`Erro ao deletar livro: ${error}`);
+    }
   }
 }
