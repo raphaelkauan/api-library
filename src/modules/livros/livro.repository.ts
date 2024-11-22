@@ -2,6 +2,7 @@ import { PrismaService } from 'src/database/prisma.service';
 import { CreateLivroDto } from './dto/CreateLivro.dto';
 import { Injectable } from '@nestjs/common';
 import { ILivro } from 'src/shared/interfaces/livro.interface';
+import { UpdateLivroDto } from './dto/UpdateLivro.dto';
 
 @Injectable()
 export class LivroRepository {
@@ -41,6 +42,8 @@ export class LivroRepository {
           autor: true,
           anoPublicacao: true,
           genero: true,
+          createdAt: true,
+          updatedAt: true,
           Emprestimos: {
             include: {
               user: true,
@@ -81,6 +84,24 @@ export class LivroRepository {
       }
     } catch (error) {
       throw new Error(`Erro ao validar emprestimo: ${error}`);
+    }
+  }
+
+  async updateLivroById(id: string, updateLivroDto: UpdateLivroDto) {
+    try {
+      await this.prisma.livros.update({
+        where: { id },
+        data: {
+          titulo: updateLivroDto.titulo,
+          autor: updateLivroDto.autor,
+          anoPublicacao: updateLivroDto.anoPublicacao,
+          genero: updateLivroDto.genero,
+        },
+      });
+
+      return { message: 'Livro atualizado com sucesso!' };
+    } catch (error) {
+      throw new Error(`Erro ao atualizar livro: ${error}`);
     }
   }
 }

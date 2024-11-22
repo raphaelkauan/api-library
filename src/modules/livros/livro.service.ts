@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateLivroDto } from './dto/CreateLivro.dto';
 import { LivroRepository } from './livro.repository';
 import { GeneroLivro } from 'src/shared/enums/genero.enum';
-import { ILivro } from 'src/shared/interfaces/livro.interface';
+import { UpdateLivroDto } from './dto/UpdateLivro.dto';
 
 @Injectable()
 export class LivroService {
@@ -41,5 +41,15 @@ export class LivroService {
 
   async findLivroById(id: string) {
     return await this.livroRepository.findLivroById(id);
+  }
+
+  async updateLivroById(id: string, updateLivroDto: UpdateLivroDto) {
+    const livro = await this.livroRepository.findLivroById(id);
+
+    if (!livro.livro) {
+      throw new HttpException('Esse livro não existe!', HttpStatus.BAD_REQUEST);
+    }
+
+    return await this.livroRepository.updateLivroById(id, updateLivroDto);
   }
 }
