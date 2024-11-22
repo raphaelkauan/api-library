@@ -22,6 +22,42 @@ export class LivroRepository {
     }
   }
 
+  async findAllLivros() {
+    try {
+      return this.prisma.livros.findMany();
+    } catch (error) {
+      throw new Error(`Erro ao buscar livros: ${error}`);
+    }
+  }
+
+  async findLivroById(id: string) {
+    try {
+      const emprestadoValidation = this.validationEmprestimo(id);
+
+      const livro = await this.prisma.livros.findFirst({
+        where: { id },
+        select: {
+          titulo: true,
+          autor: true,
+          anoPublicacao: true,
+          genero: true,
+          Emprestimos: {
+            include: {
+              user: true,
+            },
+          },
+        },
+      });
+
+      return {
+        livro,
+        Emprestado: (await emprestadoValidation).message,
+      };
+    } catch (error) {
+      throw new Error(`Erro ao buscar o livro: ${error}`);
+    }
+  }
+
   async findLivroByTitulo(titulo: string) {
     try {
       return await this.prisma.livros.findFirst({
@@ -29,14 +65,6 @@ export class LivroRepository {
       });
     } catch (error) {
       throw new Error(`Erro ao buscar livro por título : ${error}`);
-    }
-  }
-
-  async findAllLivros() {
-    try {
-      return this.prisma.livros.findMany({});
-    } catch (error) {
-      throw new Error(`Erro ao buscar livros: ${error}`);
     }
   }
 

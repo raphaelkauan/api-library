@@ -37,4 +37,8 @@ export class LivroService {
   async findAllLivros() {
     return await this.livroRepository.findAllLivros();
   }
+
+  async findLivroById(id: string) {
+    return await this.livroRepository.findLivroById(id);
+  }
 }
