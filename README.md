@@ -1,9 +1,8 @@
-Testando o Projeto
-1. Clonando o Repositório
-Para testar o projeto, clone o repositório Git utilizando o seguinte comando:
+# Testando o Projeto
 
-bash
-Copy code
+## 1. Clonando o Repositório  
+Para testar o projeto, clone o repositório Git utilizando o seguinte comando:  
+```bash
 git clone <URL_DO_REPOSITORIO>
 2. Instalando as Dependências
 Depois de acessar a pasta do projeto clonado, instale as dependências rodando o comando:
@@ -32,3 +31,5 @@ Copy code
 http://localhost:3000
 5. Testando a API
 Com o Postman, você poderá criar requisições HTTP para verificar o funcionamento das rotas da API.
+
+Copy code
