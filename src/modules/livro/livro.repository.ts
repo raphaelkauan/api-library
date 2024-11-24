@@ -4,6 +4,7 @@ import { Injectable } from '@nestjs/common';
 import { ILivro } from 'src/shared/interfaces/livro.interface';
 import { UpdateLivroDto } from './dto/UpdateLivro.dto';
 import { EmprestarRepository } from '../emprestar/emprestar.repository';
+import { TipoOperacao } from '@prisma/client';
 
 @Injectable()
 export class LivroRepository {
@@ -52,11 +53,15 @@ export class LivroRepository {
           updatedAt: true,
           quantidade: true,
           Emprestimos: {
-            include: {
+            select: {
+              dataDevolucao: true,
+              dataEmprestimo: true,
+              estadoLivro: true,
               user: {
                 select: {
                   nome: true,
                   email: true,
+                  tipoUser: true,
                 },
               },
             },
