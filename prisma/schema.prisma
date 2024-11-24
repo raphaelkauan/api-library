@@ -58,11 +58,12 @@ model Emprestimos {
 }
 
 model Historico {
-  id             String   @id @default(uuid())
+  id             String       @id @default(uuid())
   idEmprestimo   String
-  dataEmprestimo DateTime @map("data_emprestimo")
-  dataDevolucao  DateTime @map("data_devolucao")
+  dataEmprestimo DateTime     @map("data_emprestimo")
+  dataDevolucao  DateTime     @map("data_devolucao")
   estadoLivro    String
+  tipoOperacao   TipoOperacao
 
   userId String
   user   Users  @relation(fields: [userId], references: [id])
@@ -84,4 +85,9 @@ enum GeneroLivro {
   poema
   drama
   misterio
+}
+
+enum TipoOperacao {
+  emprestimo
+  devolucao
 }
