@@ -7,5 +7,6 @@ import { EmprestarRepository } from './emprestar.repository';
 @Module({
   controllers: [EmprestarController],
   providers: [EmprestarService, PrismaService, EmprestarRepository],
+  exports: [EmprestarRepository],
 })
 export class EmprestarModule {}
