@@ -7,18 +7,28 @@ export class EmprestarService {
   constructor(private readonly emprestarRepository: EmprestarRepository) {}
 
   async createEmprestarLivro(emprestarLivroDto: EmprestarLivroDto) {
-    const validationLivroEmprestimo =
-      await this.emprestarRepository.validationLivroEmprestimo(
+    const validationQuantidadeLivro =
+      await this.emprestarRepository.findQuantidadeLivro(
         emprestarLivroDto.livroId,
       );
 
-    console.log(validationLivroEmprestimo.message);
+    const userValidation =
+      await this.emprestarRepository.findEmprestimoByUserAndLivro(
+        emprestarLivroDto.userId,
+        emprestarLivroDto.livroId,
+      );
 
-    if (validationLivroEmprestimo.message === 'livro emprestado!')
+    if (validationQuantidadeLivro.quantidade == 0) {
       throw new HttpException(
-        'Esse livro já está emprestado!',
+        'Esse livro já está esgotado!',
         HttpStatus.CONFLICT,
       );
+    } else if (userValidation) {
+      throw new HttpException(
+        'Esse usuário já pegou esse livro!',
+        HttpStatus.CONFLICT,
+      );
+    }
 
     await this.emprestarRepository.emprestarLivro(emprestarLivroDto);
 
