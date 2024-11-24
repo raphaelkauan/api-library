@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../database/prisma.service';
 import { EmprestarLivroDto } from './dto/emprestar.dto';
 import { TipoOperacao } from '@prisma/client';
+import { DevolucaoLivroDto } from './dto/devolucao.dto';
 
 @Injectable()
 export class EmprestarRepository {
@@ -69,21 +70,21 @@ export class EmprestarRepository {
     }
   }
 
-  async devolucaoLivro(livroId: string) {
+  async devolucaoLivro(devolucaoLivro: DevolucaoLivroDto) {
     try {
       const emprestarId = this.prisma.emprestimos.findFirst({
-        where: { livroId },
+        where: { livroId: devolucaoLivro.livroId },
       });
 
       await this.prisma.emprestimos.delete({
         where: { id: (await emprestarId).id },
       });
 
-      const quantidadeLivro = this.findQuantidadeLivro(livroId);
+      const quantidadeLivro = this.findQuantidadeLivro(devolucaoLivro.livroId);
 
       await this.prisma.livros.update({
         where: {
-          id: livroId,
+          id: devolucaoLivro.livroId,
         },
         data: {
           quantidade: (await quantidadeLivro).quantidade + 1,
