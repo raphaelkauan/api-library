@@ -18,6 +18,19 @@ export class EmprestarRepository {
         },
       });
 
+      const quantidadeLivro = this.findQuantidadeLivro(
+        emprestarLivroDto.livroId,
+      );
+
+      await this.prisma.livros.update({
+        where: {
+          id: emprestarLivroDto.livroId,
+        },
+        data: {
+          quantidade: (await quantidadeLivro).quantidade - 1,
+        },
+      });
+
       await this.registerHistorico({
         idEmprestimo: detailsEmprestar.id,
         dataEmprestimo: detailsEmprestar.dataEmprestimo,
@@ -57,6 +70,17 @@ export class EmprestarRepository {
       await this.prisma.emprestimos.delete({
         where: { id: (await emprestarId).id },
       });
+
+      const quantidadeLivro = this.findQuantidadeLivro(livroId);
+
+      await this.prisma.livros.update({
+        where: {
+          id: livroId,
+        },
+        data: {
+          quantidade: (await quantidadeLivro).quantidade + 1,
+        },
+      });
     } catch (error) {
       throw new Error(`Erro ao devolver o livro: ${error}`);
     }
@@ -66,17 +90,35 @@ export class EmprestarRepository {
     livroId: string,
   ): Promise<{ message: string }> {
     try {
-      const emprestimo = await this.prisma.emprestimos.findFirst({
-        where: { livroId },
-      });
+      const validationQuantidadeLivro = this.findQuantidadeLivro(livroId);
 
-      if (emprestimo) {
-        return { message: 'livro emprestado!' };
+      if ((await validationQuantidadeLivro).quantidade == 0) {
+        return { message: 'livro não dispoviel!' };
       } else {
-        return { message: 'livro não emprestado!' };
+        return { message: 'livro dispoviel!' };
       }
     } catch (error) {
       throw new Error(`Erro ao validar emprestimo: ${error}`);
     }
+  }
+
+  async findQuantidadeLivro(livroId: string) {
+    return await this.prisma.livros.findFirst({
+      where: { id: livroId },
+      select: {
+        quantidade: true,
+      },
+    });
+  }
+
+  async findEmprestimoByUserAndLivro(userId: string, livroId: string) {
+    const emprestadoValidation = await this.prisma.emprestimos.findFirst({
+      where: {
+        userId,
+        AND: { livroId },
+      },
+    });
+
+    return emprestadoValidation ? true : false;
   }
 }
