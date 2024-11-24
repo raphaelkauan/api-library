@@ -3,10 +3,14 @@ import { CreateLivroDto } from './dto/CreateLivro.dto';
 import { Injectable } from '@nestjs/common';
 import { ILivro } from 'src/shared/interfaces/livro.interface';
 import { UpdateLivroDto } from './dto/UpdateLivro.dto';
+import { EmprestarRepository } from '../emprestimo/emprestar.repository';
 
 @Injectable()
 export class LivroRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly emprestarRepository: EmprestarRepository,
+  ) {}
 
   async createLivro(createLivroDto: CreateLivroDto): Promise<ILivro> {
     try {
@@ -33,7 +37,8 @@ export class LivroRepository {
 
   async findLivroById(id: string) {
     try {
-      const emprestadoValidation = this.validationLivroEmprestimo(id);
+      const emprestadoValidation =
+        await this.emprestarRepository.validationLivroEmprestimo(id);
 
       const livro = await this.prisma.livros.findFirst({
         where: { id },
@@ -46,7 +51,12 @@ export class LivroRepository {
           updatedAt: true,
           Emprestimos: {
             include: {
-              user: true,
+              user: {
+                select: {
+                  nome: true,
+                  email: true,
+                },
+              },
             },
           },
         },
@@ -54,7 +64,7 @@ export class LivroRepository {
 
       return {
         livro,
-        Emprestado: (await emprestadoValidation).message,
+        status: emprestadoValidation.message,
       };
     } catch (error) {
       throw new Error(`Erro ao buscar o livro: ${error}`);
@@ -68,24 +78,6 @@ export class LivroRepository {
       });
     } catch (error) {
       throw new Error(`Erro ao buscar livro por título: ${error}`);
-    }
-  }
-
-  async validationLivroEmprestimo(
-    livroId: string,
-  ): Promise<{ message: string }> {
-    try {
-      const emprestimo = await this.prisma.emprestimos.findFirst({
-        where: { livroId },
-      });
-
-      if (emprestimo) {
-        return { message: 'livro emprestado!' };
-      } else {
-        return { message: 'livro não emprestado!' };
-      }
-    } catch (error) {
-      throw new Error(`Erro ao validar emprestimo: ${error}`);
     }
   }
 
