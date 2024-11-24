@@ -43,8 +43,8 @@ model Livros {
 
 model Emprestimos {
   id             String    @id @default(uuid())
-  dataEmprestimo DateTime  @map("data_emprestimo")
-  dataDevolucao  DateTime? @map("data_devolucao")
+  dataEmprestimo DateTime? @default(now()) @map("data_emprestimo")
+  dataDevolucao  DateTime  @map("data_devolucao")
   estadoLivro    String
 
   userId String
@@ -57,9 +57,10 @@ model Emprestimos {
 }
 
 model Historico {
-  id             String    @id @default(uuid())
-  dataEmprestimo DateTime  @map("data_emprestimo")
-  dataDevolucao  DateTime? @map("data_devolucao")
+  id             String   @id @default(uuid())
+  idEmprestimo   String
+  dataEmprestimo DateTime @map("data_emprestimo")
+  dataDevolucao  DateTime @map("data_devolucao")
   estadoLivro    String
 
   userId String
