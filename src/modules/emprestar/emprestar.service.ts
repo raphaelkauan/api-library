@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { EmprestarRepository } from './emprestar.repository';
 import { EmprestarLivroDto } from './dto/emprestar.dto';
+import { DevolucaoLivroDto } from './dto/devolucao.dto';
 
 @Injectable()
 export class EmprestarService {
@@ -35,8 +36,21 @@ export class EmprestarService {
     return { message: 'Livro emprestado com sucesso!' };
   }
 
-  async devolucaoLivro(livroId: string) {
-    await this.emprestarRepository.devolucaoLivro(livroId);
+  async devolucaoLivro(devolucaoLivro: DevolucaoLivroDto) {
+    const userValidation =
+      await this.emprestarRepository.findEmprestimoByUserAndLivro(
+        devolucaoLivro.userId,
+        devolucaoLivro.livroId,
+      );
+
+    if (userValidation == true) {
+      await this.emprestarRepository.devolucaoLivro(devolucaoLivro);
+    } else {
+      throw new HttpException(
+        'Esse usário não pegou esse livro',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
 
     return { message: 'Livro devolvido com sucesso!' };
   }
