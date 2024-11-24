@@ -8,4 +8,5 @@ export interface ILivro {
   genero: GeneroLivro;
   createdAt?: Date;
   updatedAt?: Date;
+  quantidade: number;
 }

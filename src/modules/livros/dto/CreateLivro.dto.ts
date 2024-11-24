@@ -16,11 +16,16 @@ export class CreateLivroDto implements ILivro {
   autor: string;
 
   @IsNumber()
+  @IsNotEmpty()
   anoPublicacao: number;
 
+  @IsNotEmpty()
   genero: GeneroLivro;
 
   createdAt?: Date;
 
   updatedAt?: Date;
+
+  @IsNotEmpty()
+  quantidade: number;
 }
