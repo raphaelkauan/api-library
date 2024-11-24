@@ -7,7 +7,6 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { PrismaService } from 'src/database/prisma.service';
 import { CreateUsersDto } from './dto/CreateUsers.dto';
 import { UpdateUsersDto } from './dto/UpdateUsers.dto';
 import { UsersService } from './users.service';
@@ -17,18 +16,18 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  create(@Body() createUsersDto: CreateUsersDto) {
-    return this.usersService.create(createUsersDto);
+  async create(@Body() createUsersDto: CreateUsersDto) {
+    return await this.usersService.create(createUsersDto);
   }
 
   @Get()
-  findAll() {
-    return this.usersService.findAll();
+  async findAll() {
+    return await this.usersService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    return await this.usersService.findOne(id);
   }
 
   @Patch(':id')
@@ -39,8 +38,8 @@ export class UsersController {
     return await this.usersService.update(id, updateUsersDto);
   }
 
-  @Delete('id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(id);
+  @Delete(':id')
+  async remove(@Param('id') id: string) {
+    return await this.usersService.remove(id);
   }
 }
