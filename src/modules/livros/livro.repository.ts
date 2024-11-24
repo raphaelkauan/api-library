@@ -1,4 +1,4 @@
-import { PrismaService } from 'src/database/prisma.service';
+import { PrismaService } from '../../database/prisma.service';
 import { CreateLivroDto } from './dto/CreateLivro.dto';
 import { Injectable } from '@nestjs/common';
 import { ILivro } from 'src/shared/interfaces/livro.interface';
