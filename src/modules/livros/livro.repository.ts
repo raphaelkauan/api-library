@@ -20,6 +20,7 @@ export class LivroRepository {
           autor: createLivroDto.autor,
           anoPublicacao: createLivroDto.anoPublicacao,
           genero: createLivroDto.genero,
+          quantidade: createLivroDto.quantidade,
         },
       });
     } catch (error) {
@@ -49,6 +50,7 @@ export class LivroRepository {
           genero: true,
           createdAt: true,
           updatedAt: true,
+          quantidade: true,
           Emprestimos: {
             include: {
               user: {
