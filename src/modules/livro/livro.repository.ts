@@ -3,7 +3,7 @@ import { CreateLivroDto } from './dto/CreateLivro.dto';
 import { Injectable } from '@nestjs/common';
 import { ILivro } from 'src/shared/interfaces/livro.interface';
 import { UpdateLivroDto } from './dto/UpdateLivro.dto';
-import { EmprestarRepository } from '../emprestimo/emprestar.repository';
+import { EmprestarRepository } from '../emprestar/emprestar.repository';
 
 @Injectable()
 export class LivroRepository {

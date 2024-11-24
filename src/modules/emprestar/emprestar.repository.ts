@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../database/prisma.service';
 import { EmprestarLivroDto } from './dto/emprestar.dto';
+import { TipoOperacao } from '@prisma/client';
 
 @Injectable()
 export class EmprestarRepository {
@@ -31,20 +32,26 @@ export class EmprestarRepository {
         },
       });
 
-      await this.registerHistorico({
-        idEmprestimo: detailsEmprestar.id,
-        dataEmprestimo: detailsEmprestar.dataEmprestimo,
-        dataDevolucao: detailsEmprestar.dataDevolucao,
-        estadoLivro: detailsEmprestar.estadoLivro,
-        userId: detailsEmprestar.userId,
-        livroId: detailsEmprestar.livroId,
-      });
+      await this.registerHistorico(
+        {
+          idEmprestimo: detailsEmprestar.id,
+          dataEmprestimo: detailsEmprestar.dataEmprestimo,
+          dataDevolucao: detailsEmprestar.dataDevolucao,
+          estadoLivro: detailsEmprestar.estadoLivro,
+          userId: detailsEmprestar.userId,
+          livroId: detailsEmprestar.livroId,
+        },
+        'emprestimo',
+      );
     } catch (error) {
       throw new Error(`Erro ao emprestar o livro: ${error}`);
     }
   }
 
-  async registerHistorico(emprestarLivroDto: EmprestarLivroDto) {
+  async registerHistorico(
+    emprestarLivroDto: EmprestarLivroDto,
+    tipoOperacao: TipoOperacao,
+  ) {
     try {
       await this.prisma.historico.create({
         data: {
@@ -54,6 +61,7 @@ export class EmprestarRepository {
           estadoLivro: emprestarLivroDto.estadoLivro,
           userId: emprestarLivroDto.userId,
           livroId: emprestarLivroDto.livroId,
+          tipoOperacao: tipoOperacao,
         },
       });
     } catch (error) {
@@ -81,6 +89,18 @@ export class EmprestarRepository {
           quantidade: (await quantidadeLivro).quantidade + 1,
         },
       });
+
+      this.registerHistorico(
+        {
+          idEmprestimo: (await emprestarId).id,
+          dataEmprestimo: (await emprestarId).dataDevolucao,
+          dataDevolucao: (await emprestarId).dataDevolucao,
+          estadoLivro: (await emprestarId).estadoLivro,
+          userId: (await emprestarId).userId,
+          livroId: (await emprestarId).livroId,
+        },
+        'devolucao',
+      );
     } catch (error) {
       throw new Error(`Erro ao devolver o livro: ${error}`);
     }

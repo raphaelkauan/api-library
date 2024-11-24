@@ -3,7 +3,7 @@ import { LivroService } from './livro.service';
 import { LivroController } from './livro.controller';
 import { LivroRepository } from './livro.repository';
 import { PrismaService } from '../../database/prisma.service';
-import { EmprestarModule } from '../emprestimo/emprestar.module';
+import { EmprestarModule } from '../emprestar/emprestar.module';
 
 @Module({
   imports: [EmprestarModule],
