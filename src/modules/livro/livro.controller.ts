@@ -10,21 +10,18 @@ import {
 import { LivroService } from './livro.service';
 import { CreateLivroDto } from './dto/CreateLivro.dto';
 import { UpdateLivroDto } from './dto/UpdateLivro.dto';
-import { ILivro } from 'src/shared/interfaces/livro.interface';
 
 @Controller('livro')
 export class LivroController {
   constructor(private readonly livroService: LivroService) {}
 
   @Post()
-  async createLivro(
-    @Body() createLivroDto: CreateLivroDto,
-  ): Promise<{ message: string }> {
+  async createLivro(@Body() createLivroDto: CreateLivroDto) {
     return await this.livroService.createLivro(createLivroDto);
   }
 
   @Get()
-  async findAllLivros(): Promise<ILivro[]> {
+  async findAllLivros() {
     return await this.livroService.findAllLivros();
   }
 
@@ -37,12 +34,12 @@ export class LivroController {
   async updateLivroById(
     @Param('id') id: string,
     @Body() updateLivroDto: UpdateLivroDto,
-  ): Promise<{ message: string }> {
+  ) {
     return await this.livroService.updateLivroById(id, updateLivroDto);
   }
 
   @Delete(':id')
-  async deleteLivroById(@Param('id') id: string): Promise<{ message: string }> {
+  async deleteLivroById(@Param('id') id: string) {
     return await this.livroService.deleteLivroById(id);
   }
 }

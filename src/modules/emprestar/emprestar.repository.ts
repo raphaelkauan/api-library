@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../database/prisma.service';
 import { EmprestarLivroDto } from './dto/emprestar.dto';
 import { TipoOperacao } from '@prisma/client';
@@ -45,7 +45,7 @@ export class EmprestarRepository {
         'emprestimo',
       );
     } catch (error) {
-      throw new Error(`Erro ao emprestar o livro: ${error}`);
+      throw new Error(`erro ao emprestar o livro: ${error}`);
     }
   }
 
@@ -66,7 +66,7 @@ export class EmprestarRepository {
         },
       });
     } catch (error) {
-      throw new Error(`Erro ao registar o histórico: ${error}`);
+      throw new Error(`erro ao registar o histórico: ${error}`);
     }
   }
 
@@ -103,13 +103,11 @@ export class EmprestarRepository {
         'devolucao',
       );
     } catch (error) {
-      throw new Error(`Erro ao devolver o livro: ${error}`);
+      throw new Error(`erro ao devolver o livro: ${error}`);
     }
   }
 
-  async validationLivroEmprestimo(
-    livroId: string,
-  ): Promise<{ message: string }> {
+  async validationLivroEmprestimo(livroId: string) {
     try {
       const validationQuantidadeLivro = this.findQuantidadeLivro(livroId);
 
@@ -119,7 +117,7 @@ export class EmprestarRepository {
         return { message: 'livro dispoviel!' };
       }
     } catch (error) {
-      throw new Error(`Erro ao validar emprestimo: ${error}`);
+      throw new Error(`erro ao validar emprestimo: ${error}`);
     }
   }
 
@@ -141,5 +139,38 @@ export class EmprestarRepository {
     });
 
     return emprestadoValidation ? true : false;
+  }
+
+  async validationDataDevolucao(livroId: string) {
+    const livro = await this.prisma.emprestimos.findFirst({
+      where: { livroId },
+    });
+
+    if (!livro) {
+      throw new HttpException('livro inválido', HttpStatus.BAD_GATEWAY);
+    }
+
+    const dataDevolucaoLivro = new Date(livro.dataDevolucao);
+
+    const dateNow = new Date();
+
+    if (dateNow > dataDevolucaoLivro) {
+      const atrasoDias = Math.ceil(
+        (Number(dataDevolucaoLivro) - Number(dateNow)) / (1000 * 60 * 60 * 24),
+      );
+      return {
+        message: {
+          atrasado: true,
+          diasAtrasado: atrasoDias,
+        },
+      };
+    } else {
+      return {
+        message: {
+          atrasado: false,
+          diasAtrasado: 0,
+        },
+      };
+    }
   }
 }
