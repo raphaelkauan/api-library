@@ -3,40 +3,37 @@ import { CreateLivroDto } from './dto/CreateLivro.dto';
 import { LivroRepository } from './livro.repository';
 import { GeneroLivro } from '../../shared/enums/genero.enum';
 import { UpdateLivroDto } from './dto/UpdateLivro.dto';
-import { ILivro } from '../../shared/interfaces/livro.interface';
 
 @Injectable()
 export class LivroService {
   constructor(private readonly livroRepository: LivroRepository) {}
 
-  async createLivro(
-    createLivroDto: CreateLivroDto,
-  ): Promise<{ message: string }> {
+  async createLivro(createLivroDto: CreateLivroDto) {
     const livroValidation = await this.livroRepository.findLivroByTitulo(
       createLivroDto.titulo,
     );
 
     if (livroValidation) {
       throw new HttpException(
-        'Esse título já está cadastrado!',
+        'esse título já está cadastrado!',
         HttpStatus.CONFLICT,
       );
     } else if (!Object.values(GeneroLivro).includes(createLivroDto.genero)) {
       throw new HttpException(
-        'O gênero fornecido é inválido!',
+        'o gênero fornecido é inválido!',
         HttpStatus.BAD_REQUEST,
       );
     }
 
     try {
       await this.livroRepository.createLivro(createLivroDto);
-      return { message: 'Livro cadastrado com sucesso!' };
+      return { message: 'livro cadastrado com sucesso!' };
     } catch (error) {
       throw new Error(error);
     }
   }
 
-  async findAllLivros(): Promise<ILivro[]> {
+  async findAllLivros() {
     return await this.livroRepository.findAllLivros();
   }
 
@@ -44,40 +41,37 @@ export class LivroService {
     return await this.livroRepository.findLivroById(id);
   }
 
-  async updateLivroById(
-    id: string,
-    updateLivroDto: UpdateLivroDto,
-  ): Promise<{ message: string }> {
+  async updateLivroById(id: string, updateLivroDto: UpdateLivroDto) {
     try {
       const livro = await this.livroRepository.findLivroById(id);
 
       if (!livro.livro) {
         throw new HttpException(
-          'Esse livro não existe!',
+          'esse livro não existe!',
           HttpStatus.BAD_REQUEST,
         );
       }
 
       return await this.livroRepository.updateLivroById(id, updateLivroDto);
     } catch (error) {
-      throw new Error(`Erro ao atualizar livro: ${error}`);
+      throw new Error(`erro ao atualizar livro: ${error}`);
     }
   }
 
-  async deleteLivroById(id: string): Promise<{ message: string }> {
+  async deleteLivroById(id: string) {
     try {
       const livro = await this.livroRepository.findLivroById(id);
 
       if (!livro.livro) {
         throw new HttpException(
-          'Esse livro não existe!',
+          'esse livro não existe!',
           HttpStatus.BAD_REQUEST,
         );
       }
 
       return await this.livroRepository.deleteLivroById(id);
     } catch (error) {
-      throw new Error(`Erro ao deletar livro: ${error}`);
+      throw new Error(`erro ao deletar livro: ${error}`);
     }
   }
 }

@@ -1,10 +1,8 @@
 import { PrismaService } from '../../database/prisma.service';
 import { CreateLivroDto } from './dto/CreateLivro.dto';
 import { Injectable } from '@nestjs/common';
-import { ILivro } from 'src/shared/interfaces/livro.interface';
 import { UpdateLivroDto } from './dto/UpdateLivro.dto';
 import { EmprestarRepository } from '../emprestar/emprestar.repository';
-import { TipoOperacao } from '@prisma/client';
 
 @Injectable()
 export class LivroRepository {
@@ -13,7 +11,7 @@ export class LivroRepository {
     private readonly emprestarRepository: EmprestarRepository,
   ) {}
 
-  async createLivro(createLivroDto: CreateLivroDto): Promise<ILivro> {
+  async createLivro(createLivroDto: CreateLivroDto) {
     try {
       return await this.prisma.livros.create({
         data: {
@@ -25,15 +23,15 @@ export class LivroRepository {
         },
       });
     } catch (error) {
-      throw new Error(`Erro ao criar um livro: ${error}`);
+      throw new Error(`erro ao criar um livro: ${error}`);
     }
   }
 
-  async findAllLivros(): Promise<ILivro[]> {
+  async findAllLivros() {
     try {
       return await this.prisma.livros.findMany();
     } catch (error) {
-      throw new Error(`Erro ao buscar livros: ${error}`);
+      throw new Error(`erro ao buscar livros: ${error}`);
     }
   }
 
@@ -74,24 +72,21 @@ export class LivroRepository {
         status: emprestadoValidation.message,
       };
     } catch (error) {
-      throw new Error(`Erro ao buscar o livro: ${error}`);
+      throw new Error(`erro ao buscar o livro: ${error}`);
     }
   }
 
-  async findLivroByTitulo(titulo: string): Promise<ILivro> {
+  async findLivroByTitulo(titulo: string) {
     try {
       return await this.prisma.livros.findFirst({
         where: { titulo },
       });
     } catch (error) {
-      throw new Error(`Erro ao buscar livro por título: ${error}`);
+      throw new Error(`erro ao buscar livro por título: ${error}`);
     }
   }
 
-  async updateLivroById(
-    id: string,
-    updateLivroDto: UpdateLivroDto,
-  ): Promise<{ message: string }> {
+  async updateLivroById(id: string, updateLivroDto: UpdateLivroDto) {
     try {
       await this.prisma.livros.update({
         where: { id },
@@ -103,21 +98,21 @@ export class LivroRepository {
         },
       });
 
-      return { message: 'Livro atualizado com sucesso!' };
+      return { message: 'livro atualizado com sucesso!' };
     } catch (error) {
-      throw new Error(`Erro ao atualizar livro: ${error}`);
+      throw new Error(`erro ao atualizar livro: ${error}`);
     }
   }
 
-  async deleteLivroById(id: string): Promise<{ message: string }> {
+  async deleteLivroById(id: string) {
     try {
       await this.prisma.livros.delete({
         where: { id },
       });
 
-      return { message: 'Livro deletado com sucesso!' };
+      return { message: 'livro deletado com sucesso!' };
     } catch (error) {
-      throw new Error(`Erro ao deletar livro: ${error}`);
+      throw new Error(`erro ao deletar livro: ${error}`);
     }
   }
 }

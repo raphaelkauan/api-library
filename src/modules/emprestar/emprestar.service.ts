@@ -21,19 +21,19 @@ export class EmprestarService {
 
     if (validationQuantidadeLivro.quantidade == 0) {
       throw new HttpException(
-        'Esse livro já está esgotado!',
+        'esse livro já está esgotado',
         HttpStatus.CONFLICT,
       );
     } else if (userValidation) {
       throw new HttpException(
-        'Esse usuário já pegou esse livro!',
+        'esse usuário já pegou esse livro',
         HttpStatus.CONFLICT,
       );
     }
 
     await this.emprestarRepository.emprestarLivro(emprestarLivroDto);
 
-    return { message: 'Livro emprestado com sucesso!' };
+    return { message: 'livro emprestado com sucesso' };
   }
 
   async devolucaoLivro(devolucaoLivro: DevolucaoLivroDto) {
@@ -43,15 +43,20 @@ export class EmprestarService {
         devolucaoLivro.livroId,
       );
 
+    const validationDataDevolucao =
+      await this.emprestarRepository.validationDataDevolucao(
+        devolucaoLivro.livroId,
+      );
+
     if (userValidation == true) {
       await this.emprestarRepository.devolucaoLivro(devolucaoLivro);
+
+      return validationDataDevolucao;
     } else {
       throw new HttpException(
-        'Esse usário não pegou esse livro',
+        'esse usário não pegou esse livro',
         HttpStatus.BAD_REQUEST,
       );
     }
-
-    return { message: 'Livro devolvido com sucesso!' };
   }
 }
