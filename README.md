@@ -11,10 +11,10 @@ Para garantir a integridade da aplicação aplicamos testes unitários e cada en
 | 👨‍💻 [@eonarga](https://github.com/eonarga)           | Desenvolvedor   |
 
 ## ROADMAP 
-- [  ] Criação dos CRUDs
-- [  ] Criação dos teste unitários
-- [  ] Documentação
-- [  ] Entrega do projeto
+- [x] Criação dos CRUDs
+- [ ] Criação dos teste unitários
+- [ ] Documentação
+- [ ] Entrega do projeto
 
 ### Tecnologias usadas 
 |                                                                                  | Tecnologia  | Descrição                               |
