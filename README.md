@@ -11,10 +11,10 @@ Para garantir a integridade da aplicação aplicamos testes unitários e cada en
 | 👨‍💻 [@eonarga](https://github.com/eonarga)           | Desenvolvedor   |
 
 ## ROADMAP 
-- [x] Criação dos CRUDs
-- [ ] Criação dos teste unitários
-- [ ] Documentação
-- [ ] Entrega do projeto
+[  ] Criação dos CRUDs
+[  ] Criação dos teste unitários
+[  ] Documentação
+[  ] Entrega do projeto
 
 ### Tecnologias usadas 
 |                                                                                  | Tecnologia  | Descrição                               |
@@ -22,3 +22,8 @@ Para garantir a integridade da aplicação aplicamos testes unitários e cada en
 | <img src="https://icon.icepanel.io/Technology/svg/Jest.svg" alt="Jest" width="80" />  | Jest        | Framework de testes JavaScript.         |
 | <img src="https://www.svgrepo.com/show/303360/nodejs-logo.svg" alt="Node.js" width="100" /> | Node.js     | Ambiente de execução JavaScript.        |
 | <img src="https://upload.wikimedia.org/wikipedia/commons/a/a8/NestJS.svg" alt="NestJS" width="80" /> | NestJS      | Framework para construção de APIs.      |
+
+## Como rodar a API localmente
+1. Antes de tudo se certifique de ter o [node instalado](https://www.youtube.com/watch?v=-cLzUD0TQY0) em sua máquina. 
+2. Clone o projeto em uma [ferramenta de edição de código](https://code.visualstudio.com/download).
+3. ```node git clone https://github.com/raphaelkauan/api-library.git```
