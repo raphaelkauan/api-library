@@ -27,3 +27,4 @@ Para garantir a integridade da aplicação aplicamos testes unitários e cada en
 1. Antes de tudo se certifique de ter o [node instalado](https://www.youtube.com/watch?v=-cLzUD0TQY0) em sua máquina. 
 2. Clone o projeto em uma [ferramenta de edição de código](https://code.visualstudio.com/download).
 3. ```node git clone https://github.com/raphaelkauan/api-library.git```
+4. ```node git clone https://github.com/raphaelkauan/api-library.git;
