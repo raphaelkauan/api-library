@@ -43,7 +43,7 @@ npx prisma generate
 ```
 
 ## Rodando um API no POSTMAN
-1. Para rodar o projeto basta no seu terminal, no diretório do seu projeto, o código:
+1. Para rodar o projeto, basta colar no seu terminal, no diretório do seu projeto, o código:
 ```node
 npm run start
 ```
