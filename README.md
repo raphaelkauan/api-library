@@ -43,6 +43,11 @@ npx prisma generate
 ```
 
 ## Rodando um API no POSTMAN
+1. Para rodar o projeto basta no seu terminal, no diretório do seu projeto, o código:
+```node
+npm run start
+```
+
 Se você não tem o postman instalado em sua máquina, você pode baixar ele pelo [site oficial](https://www.postman.com/), caso tenha dificuldade de instalar esse tutorial do YouTube pode te ajudar: [Assistir vídeo](https://www.youtube.com/watch?v=RbT_stw02C4). 
 
 Configure sua Ambiente para uma API padrão, caso tenha dificuldade deixo esse outro vídeo para te ajudar: [Assistir vídeo](https://www.youtube.com/watch?v=tWu5eoFeIVQ).
