@@ -28,4 +28,16 @@ Para garantir a integridade da aplicação aplicamos testes unitários e cada en
 2. Clone o projeto em uma [ferramenta de edição de código](https://code.visualstudio.com/download).
 ```bash
 git clone https://github.com/raphaelkauan/api-library.git
-
+```
+3. Instale a dependências de desenvolvimento com o comando: 
+```node
+npm install
+```
+4. Após instalar as dependências rode esse comando para realizar a migração no banco de dados:
+```node
+npx prisma migrate dev --api-biblioteca init
+```
+5. Após a migração, você pode gerar o cliente Prisma, que é a interface para interagir com o banco de dados:
+ ```node
+npx prisma generate
+```
