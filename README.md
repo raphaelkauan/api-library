@@ -23,7 +23,7 @@ Para garantir a integridade da aplicação aplicamos testes unitários e cada en
 | <img src="https://www.svgrepo.com/show/303360/nodejs-logo.svg" alt="Node.js" width="100" /> | Node.js     | Ambiente de execução JavaScript.        |
 | <img src="https://upload.wikimedia.org/wikipedia/commons/a/a8/NestJS.svg" alt="NestJS" width="80" /> | NestJS      | Framework para construção de APIs.      |
 
-## Como rodar a API localmente
+## Preparando o Ambiente
 1. Antes de tudo se certifique de ter o [node instalado](https://www.youtube.com/watch?v=-cLzUD0TQY0) em sua máquina. 
 2. Clone o projeto em uma [ferramenta de edição de código](https://code.visualstudio.com/download).
 ```bash
@@ -41,3 +41,10 @@ npx prisma migrate dev --api-biblioteca init
  ```node
 npx prisma generate
 ```
+
+## Rodando um API no POSTMAN
+Se você não tem o postman instalado em sua máquina, você pode baixar ele pelo [site oficial](https://www.postman.com/), caso tenha dificuldade de instalar esse tutorial do YouTube pode te ajudar: [Assistir vídeo](https://www.youtube.com/watch?v=RbT_stw02C4). 
+
+Configure sua Ambiente para uma API padrão, caso tenha dificuldade deixo esse outro vídeo para te ajudar: [Assistir vídeo](https://www.youtube.com/watch?v=tWu5eoFeIVQ).
+
+Acesse o link da documentação da API e divirta-se😁!
