@@ -16,8 +16,8 @@ Para garantir a integridade da aplicação aplicamos testes unitários e cada en
 
 - [x] Criação dos CRUDs
 - [x] Criação dos teste unitários
-- [ ] Documentação
-- [ ] Entrega do projeto
+- [X] Documentação
+- [x] Entrega do projeto
 
 ### Tecnologias usadas
 
