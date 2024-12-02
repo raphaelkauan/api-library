@@ -173,4 +173,8 @@ export class EmprestarRepository {
       };
     }
   }
+
+  async historicoEmprestimoAndDevolucao() {
+    return await this.prisma.historico.findMany();
+  }
 }

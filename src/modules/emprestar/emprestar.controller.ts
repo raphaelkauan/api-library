@@ -16,4 +16,9 @@ export class EmprestarController {
   async devolucaoLivro(@Body() devolucaoLivroDto: DevolucaoLivroDto) {
     return await this.emprestarService.devolucaoLivro(devolucaoLivroDto);
   }
+
+  @Get('/historico')
+  async historicoEmprestimoAndDevolucao() {
+    return await this.emprestarService.historicoEmprestimoAndDevolucao();
+  }
 }
