@@ -59,4 +59,8 @@ export class EmprestarService {
       );
     }
   }
+
+  async historicoEmprestimoAndDevolucao() {
+    return await this.emprestarRepository.historicoEmprestimoAndDevolucao();
+  }
 }
