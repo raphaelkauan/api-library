@@ -51,7 +51,10 @@ export class EmprestarService {
     if (userValidation == true) {
       await this.emprestarRepository.devolucaoLivro(devolucaoLivro);
 
-      return validationDataDevolucao;
+       return {
+        message: 'livro devolvido com sucesso',
+        validationData: validationDataDevolucao,
+    };
     } else {
       throw new HttpException(
         'esse usário não pegou esse livro',
