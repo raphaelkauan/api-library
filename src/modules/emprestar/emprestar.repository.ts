@@ -1,8 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../database/prisma.service';
 import { EmprestarLivroDto } from './dto/emprestar.dto';
-import { TipoOperacao } from '@prisma/client';
 import { DevolucaoLivroDto } from './dto/devolucao.dto';
+import { TipoOperacao } from '@prisma/client';
 
 @Injectable()
 export class EmprestarRepository {
