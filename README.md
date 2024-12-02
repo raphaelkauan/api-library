@@ -70,9 +70,7 @@ Acesse o link da documentação da API e divirta-se😁!
 
 ## Swagger
 
-**Route:** ``
-
-<img src="" width="750" alt="Doc" />
+**Route:** `http://localhost:3000/docs`
 
 ## License
 
