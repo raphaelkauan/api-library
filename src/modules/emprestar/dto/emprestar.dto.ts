@@ -1,4 +1,4 @@
-import { IsDate, IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 import { IEmprestar } from 'src/shared/interfaces/emprestar.interface';
 
 export class EmprestarLivroDto implements IEmprestar {
